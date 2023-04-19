@@ -24,11 +24,10 @@ pipeline {
       stage('Install Microsoft.Graph module') {
             steps {
                 script {
-                    // Update PATH environment variable to include PowerShell installation path
-                    env.PATH = "${'/opt/microsoft/powershell/7'}:${env.PATH}"
+                     // Install Microsoft.Graph module using PowerShell
+                    sh "pwsh Install-Module -Name Microsoft.Graph -Force"
                     
-                    // Install Microsoft.Graph module using PowerShell
-                    powershell "Install-Module -Name Microsoft.Graph -Force"
+                    
                 }
             }
         }
