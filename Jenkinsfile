@@ -24,7 +24,7 @@ pipeline {
           stage('Install PowerShell Core') {
       steps {
         // Install PowerShell Core
-        sh 'wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb'
+        sh 'curl -fsSLO https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb'
         sh 'dpkg -i packages-microsoft-prod.deb'
         sh 'apt-get update'
         sh 'apt-get install -y powershell'
