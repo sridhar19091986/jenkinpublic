@@ -24,18 +24,27 @@ pipeline {
         stage('Build') {
             steps {
                  // Access parameter values and set as environment variables
-                  script {
-                            env.Env = params.Env
-                            env.Version = params.Version
-                            env.AppName = params.AppName
-                          } 
+//                   script {
+//                             env.Env = params.Env
+//                             env.Version = params.Version
+//                             env.AppName = params.AppName
+//                           } 
 
                 // Call PowerShell script with parameters
                 // 
-                 echo "Env: ${env.Env}"
-                 echo "Version: ${env.Version}"
-                 echo "AppName: ${env.AppName}"
-                 bat "powershell -ExecutionPolicy Bypass -File adb2conboardingscript.ps1 -Env ${env.Env} -Version ${env.Version} -AppName ${env.AppName}"
+                 echo "Env:  "${params.Env}"
+                 echo "Version:  "${params.Version}"
+                 echo "AppName: "${params.AppName}"
+                  // Call PowerShell script with build parameters
+                  powershell '''
+                  # Access build parameters from Jenkinsfile
+                  $envValue = "${params.Env}"
+                  $versionValue = "${params.Version}"
+                  $appNameValue = "${params.AppName}"
+
+                  # Call PowerShell script with build parameters
+                  .\adb2conboardingscript.ps1 -Env $envValue -Version $versionValue -AppName $appNameValue
+        '''
             }
         }
         stage('Deploy') {
