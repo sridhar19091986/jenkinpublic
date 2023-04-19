@@ -22,12 +22,12 @@ pipeline {
     }
     stages {
           stage('Install PowerShell Core') {
-      steps {
+     steps {
         // Install PowerShell Core
         sh 'curl -fsSLO https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb'
-        sh 'dpkg -i packages-microsoft-prod.deb'
-        sh 'apt-get update'
-        sh 'apt-get install -y powershell'
+        sh 'sudo dpkg -i packages-microsoft-prod.deb' // Use sudo to run dpkg with root privileges
+        sh 'sudo apt-get update' // Use sudo to run apt-get with root privileges
+        sh 'sudo apt-get install -y powershell' // Use sudo to run apt-get with root privileges
       }
     }
         stage('Build') {
