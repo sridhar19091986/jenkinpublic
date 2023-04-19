@@ -21,16 +21,16 @@ pipeline {
         )
     }
     stages {
-stage('Install PowerShell Module') {
-    steps {
-        script {
-            // Install PowerShell module using pwsh
-            pwsh(
-                script: "Install-Module -Name Microsoft.Graph -Force"
-            )
-        }
-    }
-}
+// stage('Install PowerShell Module') {
+//     steps {
+//         script {
+//             // Install PowerShell module using pwsh
+//             pwsh(
+//                 script: "Install-Module -Name Microsoft.Graph -Force"
+//             )
+//         }
+//     }
+// }
 
          stage('Build') {
             steps {
