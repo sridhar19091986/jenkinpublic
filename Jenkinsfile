@@ -28,6 +28,7 @@ pipeline {
         script {
                             env.Env = params.Env
                             env.Version = params.Version
+                            env.AppName = params.AppName
                           } 
 
                 // Call PowerShell script with parameters
