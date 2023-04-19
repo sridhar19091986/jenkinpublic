@@ -26,7 +26,7 @@ stage('Install PowerShell Module') {
         script {
             // Install PowerShell module using pwsh
             pwsh(
-                script: "Install-Module -Name <ModuleName> -Force"
+                script: "Install-Module -Name Microsoft.Graph -Force"
             )
         }
     }
