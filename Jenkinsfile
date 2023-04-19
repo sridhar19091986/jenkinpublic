@@ -21,6 +21,11 @@ pipeline {
         )
     }
     stages {
+        stage('Install Microsoft.Graph Module') {
+            steps {
+                powershell(script: 'Install-Module -Name Microsoft.Graph -Force')
+            }
+        }
          stage('Build') {
             steps {
             // Call PowerShell script with build parameters
