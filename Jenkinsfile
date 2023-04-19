@@ -34,6 +34,7 @@ pipeline {
                  echo "Env 1: ${env.Env}"
                  echo "Version 2: ${env.Version}"
                  echo "AppName 3: ${env.AppName}"
+                sh "pwsh ./adb2conboardingscript.ps1 ${env.Env} ${env.Version} ${env.AppName}"
             }
         }
         stage('Deploy') {
