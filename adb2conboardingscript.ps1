@@ -8,7 +8,7 @@ param (
 Write-Host "Parameter 1: $Env"
 Write-Host "Parameter 2: $Version"
 Write-Host "Parameter 3: $AppName" 
-
+Write-Host "Parameter 4: $env:GRAPH_CLIENT_ID" 
 Import-Module Microsoft.Graph.Applications
 
 $params = @{
