@@ -12,11 +12,11 @@ pipeline {
       description: 'Passing the Environment'
      )
      text(
-          name: 'MULTI-LINE-STRING'
+          name: 'redirectURLS'
          )
      string(
           defaultValue: 'scriptcrunch', 
-          name: 'STRING-PARAMETER', 
+          name: 'AppName', 
           trim: true
         )
     }
@@ -27,15 +27,15 @@ pipeline {
                   script {
                             env.Env = params.Env
                             env.Version = params.Version
-                            env.STRINGPARAMETER = params.STRING-PARAMETER
+                            env.AppName = params.AppName
                           } 
 
                 // Call PowerShell script with parameters
                 // 
                  echo "Env: ${env.Env}"
                  echo "Version: ${env.Version}"
-                 echo "STRINGPARAMETER: ${env.STRINGPARAMETER}"
-                 bat "powershell -ExecutionPolicy Bypass -File adb2conboardingscript.ps1 -Env ${env.Env} -Version ${env.Version} -STRINGPARAMETER ${env.STRINGPARAMETER}"
+                 echo "AppName: ${env.AppName}"
+                 bat "powershell -ExecutionPolicy Bypass -File adb2conboardingscript.ps1 -Env ${env.Env} -Version ${env.Version} -AppName ${env.AppName}"
             }
         }
         stage('Deploy') {
