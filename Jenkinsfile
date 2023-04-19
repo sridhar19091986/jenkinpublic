@@ -31,8 +31,8 @@ pipeline {
 
                 // Call PowerShell script with parameters
                 // bat "powershell -ExecutionPolicy Bypass -File path/to/your/script.ps1 -param1Value $param1Value -param2Value $param2Value"
-                echo ${env.Env}
-                echo ${env.Version}
+                 echo "Env 1: ${env.Env}"
+                 echo "Version 2: ${env.Version}"
             }
         }
         stage('Deploy') {
