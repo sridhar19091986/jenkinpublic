@@ -32,9 +32,9 @@ pipeline {
 
                 // Call PowerShell script with parameters
                 // 
-                 echo "Env:  "${params.Env}"
-                 echo "Version:  "${params.Version}"
-                 echo "AppName: "${params.AppName}"
+//                  echo "Env:  "${params.Env}"
+//                  echo "Version:  "${params.Version}"
+//                  echo "AppName: "${params.AppName}"
                   // Call PowerShell script with build parameters
                   powershell '''
                   # Access build parameters from Jenkinsfile
