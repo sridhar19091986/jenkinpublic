@@ -23,27 +23,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                 // Access parameter values and set as environment variables
-//                   script {
-//                             env.Env = params.Env
-//                             env.Version = params.Version
-//                             env.AppName = params.AppName
-//                           } 
+            // Call PowerShell script with build parameters
+        powershell '''
+          // Access build parameters from Jenkinsfile
+          def envValue = "${params.Env}"
+          def versionValue = "${params.Version}"
+          def appNameValue = "${params.AppName}"
 
-                // Call PowerShell script with parameters
-                // 
-//                  echo "Env:  "${params.Env}"
-//                  echo "Version:  "${params.Version}"
-//                  echo "AppName: "${params.AppName}"
-                  // Call PowerShell script with build parameters
-                  powershell '''
-                  # Access build parameters from Jenkinsfile
-                  $envValue = "${params.Env}"
-                  $versionValue = "${params.Version}"
-                  $appNameValue = "${params.AppName}"
-
-                  # Call PowerShell script with build parameters
-                  .\adb2conboardingscript.ps1 -Env $envValue -Version $versionValue -AppName $appNameValue
+          // Call PowerShell script with build parameters
+          bat """
+            .\\adb2conboardingscript.ps1 -Env $envValue -Version $versionValue -AppName $appNameValue
+          """
         '''
             }
         }
