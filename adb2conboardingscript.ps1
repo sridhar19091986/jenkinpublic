@@ -3,9 +3,9 @@
 param (
   [string]$Env,
   [string]$Version,
-  [string]$STRINGPARAMETER
+  [string]$AppName
 )
 
 Write-Host "Parameter 1: $Env"
 Write-Host "Parameter 2: $Version"
-Write-Host "Parameter 3: $STRINGPARAMETER" 
+Write-Host "Parameter 3: $AppName" 
