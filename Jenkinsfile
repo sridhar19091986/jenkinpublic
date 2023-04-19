@@ -5,7 +5,24 @@ pipeline {
       name: 'Env',
       choices: ['DEV', 'QA', 'UAT', 'PROD'],
       description: 'Passing the Environment'
-     )
+     ),
+     choice(
+      name: 'Version',
+      choices: ['1.0.1', '1.0.2', '1.0.3'],
+      description: 'Passing the Environment'
+     ),
+        text(
+                                defaultValue: '''
+                                this is a multi-line 
+                                string parameter example
+                                ''', 
+                                 name: 'MULTI-LINE-STRING'
+                            ),
+                            string(
+                                defaultValue: 'scriptcrunch', 
+                                name: 'STRING-PARAMETER', 
+                                trim: true
+                            )
     }
     stages {
         stage('Build') {
