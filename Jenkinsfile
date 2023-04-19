@@ -23,7 +23,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Hello Build'
+                // Access parameter values
+                def param1Value = params.Env
+                def param2Value = params.Version
+
+                // Call PowerShell script with parameters
+                // bat "powershell -ExecutionPolicy Bypass -File path/to/your/script.ps1 -param1Value $param1Value -param2Value $param2Value"
+                echo param1Value 
+                echo param2Value 
             }
         }
         stage('Deploy') {
