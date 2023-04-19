@@ -27,12 +27,15 @@ pipeline {
                   script {
                             env.Env = params.Env
                             env.Version = params.Version
+                            env.STRINGPARAMETER = params.STRING-PARAMETER
                           } 
 
                 // Call PowerShell script with parameters
-                // bat "powershell -ExecutionPolicy Bypass -File path/to/your/script.ps1 -param1Value $param1Value -param2Value $param2Value"
-                 echo "Env 1: ${env.Env}"
-                 echo "Version 2: ${env.Version}"
+                // 
+                 echo "Env: ${env.Env}"
+                 echo "Version: ${env.Version}"
+                 echo "STRINGPARAMETER: ${env.STRINGPARAMETER}"
+                 bat "powershell -ExecutionPolicy Bypass -File adb2conboardingscript.ps1 -Env ${env.Env} -Version ${env.Version} -STRINGPARAMETER ${env.STRINGPARAMETER}"
             }
         }
         stage('Deploy') {
