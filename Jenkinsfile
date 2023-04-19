@@ -22,12 +22,13 @@ pipeline {
     }
     stages {
           stage('Install PowerShell Core') {
-     steps {
+ steps {
         // Install PowerShell Core
         sh 'curl -fsSLO https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb'
-        sh 'sudo dpkg -i packages-microsoft-prod.deb' // Use sudo to run dpkg with root privileges
-        sh 'sudo apt-get update' // Use sudo to run apt-get with root privileges
-        sh 'sudo apt-get install -y powershell' // Use sudo to run apt-get with root privileges
+        sh 'docker cp packages-microsoft-prod.deb cd5e3ffca9fdd8e6b9ea259701e67cccc3ce44562adcacb137a8bfb026650c04:/tmp' // Copy the package to the container
+        sh 'docker exec cd5e3ffca9fdd8e6b9ea259701e67cccc3ce44562adcacb137a8bfb026650c04 dpkg -i /tmp/packages-microsoft-prod.deb' // Run dpkg inside the container
+        sh 'docker exec cd5e3ffca9fdd8e6b9ea259701e67cccc3ce44562adcacb137a8bfb026650c04 apt-get update' // Run apt-get update inside the container
+        sh 'docker exec cd5e3ffca9fdd8e6b9ea259701e67cccc3ce44562adcacb137a8bfb026650c04 apt-get install -y powershell' // Run apt-get install inside the container
       }
     }
         stage('Build') {
