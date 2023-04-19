@@ -24,17 +24,16 @@ pipeline {
         stage('Build') {
             steps {
             // Call PowerShell script with build parameters
-        powershell '''
-          // Access build parameters from Jenkinsfile
-          def envValue = "${params.Env}"
-          def versionValue = "${params.Version}"
-          def appNameValue = "${params.AppName}"
+        script {
+                            env.Env = params.Env
+                            env.Version = params.Version
+                          } 
 
-          // Call PowerShell script with build parameters
-          bat """
-            .\\adb2conboardingscript.ps1 -Env $envValue -Version $versionValue -AppName $appNameValue
-          """
-        '''
+                // Call PowerShell script with parameters
+                // bat "powershell -ExecutionPolicy Bypass -File path/to/your/script.ps1 -param1Value $param1Value -param2Value $param2Value"
+                 echo "Env 1: ${env.Env}"
+                 echo "Version 2: ${env.Version}"
+                 echo "AppName 3: ${env.AppName}"
             }
         }
         stage('Deploy') {
