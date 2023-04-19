@@ -21,13 +21,12 @@ pipeline {
         )
     }
     stages {
-     stage('Install PowerShell Module') {
+stage('Install PowerShell Module') {
     steps {
         script {
             // Install PowerShell module using pwsh
-            powershell(
-                script: "Install-Module -Name <ModuleName> -Force",
-                pwsh: true
+            pwsh(
+                script: "Install-Module -Name <ModuleName> -Force"
             )
         }
     }
