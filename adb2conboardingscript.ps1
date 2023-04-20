@@ -13,7 +13,7 @@ Write-Host "Parameter 5: $env:GRAPH_CLIENT_SECRET"
 Write-Host "Parameter 6: $env:GRAPH_TENANT_ID" 
 
 Import-Module Microsoft.Graph.Applications
-
+# https://www.powershellgallery.com/packages/AzureADB2C/1.7.282/Content/AzureADB2C.psm1
 # $params = @{
 # 	displayName = $AppName
 #         IdentifierUris = "https://myb2capp" 
@@ -37,9 +37,32 @@ $web = @{
 $spa = @{
      RedirectUris = @("https://localhost:5003/signin-oidc", "https://localhost:5003/" ) 
 }
+$apiPermissionScopes = @(
+    @{
+        adminConsentDisplayName = "Read Data"
+        adminConsentDescription = "Allows the app to read data from the API"
+        userConsentDisplayName = "Read Data"
+        userConsentDescription = "Allows the app to read data from the API"
+        id = "1"
+        type = "Scope"
+        value = "api://myapiapp/read"
+    },
+    @{
+        adminConsentDisplayName = "Write Data"
+        adminConsentDescription = "Allows the app to write data to the API"
+        userConsentDisplayName = "Write Data"
+        userConsentDescription = "Allows the app to write data to the API"
+        id = "2"
+        type = "Scope"
+        value = "api://myapiapp/write"
+    }
+)
+
 
 $createAppParams = @{
     DisplayName = "AspNetWebApp"
+    IdentifierUris = "https://$env:GRAPH_TENANT_ID/AspNetWebApI"
+    ApiPermissionScopes = $apiPermissionScopes
     Web = $web
     spa = $spa
     RequiredResourceAccess = @{
