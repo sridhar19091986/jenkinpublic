@@ -47,7 +47,7 @@ $apiPermissionScopes = @(
         userConsentDisplayName = "Read Data"
         userConsentDescription = "Allows the app to read data from the API"
         id = $readPermissionScopeId
-        type = "Scope"
+        type = "Admin"
         value = "read"
     },
     @{
@@ -56,7 +56,7 @@ $apiPermissionScopes = @(
         userConsentDisplayName = "Write Data"
         userConsentDescription = "Allows the app to write data to the API"
         id = $writePermissionScopeId
-        type = "Scope"
+        type = "Admin"
         value = "write"
     }
 )
