@@ -129,14 +129,14 @@ $apiServicePrincipalID=@{
   }
 $apiservicePrincipal = New-MgServicePrincipal -BodyParameter $apiServicePrincipalID
 
-# $Oauth2PermissionreadGrantRequestBody=@{
-#   ConsentType = "AllPrincipals"
-#   ClientId = $appservicePrincipal.Id
-#   ResourceId =  $apiservicePrincipal.Id
-#   Scope = "read"  
-#   }
+$Oauth2PermissionreadGrantRequestBody=@{
+  ConsentType = "AllPrincipals"
+  ClientId = $appservicePrincipal.Id
+  ResourceId =  $apiservicePrincipal.Id
+  Scope = "read write"  
+  }
   
-# New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionreadGrantRequestBody
+New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionreadGrantRequestBody
 
 # $Oauth2PermissionwriteGrantRequestBody=@{
 #   ConsentType = "AllPrincipals"
@@ -148,15 +148,15 @@ $apiservicePrincipal = New-MgServicePrincipal -BodyParameter $apiServicePrincipa
 # New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionwriteGrantRequestBody
 
 # Define the scopes as an array of strings
-$scopes = @("write", "read")
+# $scopes = @("write", "read")
 
-# Loop through each scope and create the OAuth 2.0 permission grant
-foreach ($scope in $scopes) {
-    New-MgOauth2PermissionGrant -ResourceId  $apiservicePrincipal.Id`
-                                -Scope $scope `
-                                -ClientId $appservicePrincipal.Id`
-                                -ConsentType "AllPrincipals" `
-}
+# # Loop through each scope and create the OAuth 2.0 permission grant
+# foreach ($scope in $scopes) {
+#     New-MgOauth2PermissionGrant -ResourceId  $apiservicePrincipal.Id`
+#                                 -Scope $scope `
+#                                 -ClientId $appservicePrincipal.Id`
+#                                 -ConsentType "AllPrincipals" `
+# }
 
 
 # Connect-MgGraph -ClientCredential $env:GRAPH_CLIENT_ID -ClientSecret $env:GRAPH_CLIENT_SECRET -TenantId $env:GRAPH_TENANT_ID
