@@ -127,25 +127,38 @@ $appservicePrincipal = New-MgServicePrincipal -BodyParameter $appServicePrincipa
 $apiServicePrincipalID=@{
   "AppId" = $newAPI.AppId
   }
-$apiservicePrincipal = New-MgServicePrincipal -BodyParameter $apiServicePrincipalID
+# $apiservicePrincipal = New-MgServicePrincipal -BodyParameter $apiServicePrincipalID
 
-$Oauth2PermissionreadGrantRequestBody=@{
-  ConsentType = "AllPrincipals"
-  ClientId = $appservicePrincipal.Id
-  ResourceId =  $apiservicePrincipal.Id
-  Scope = "read"  
-  }
+# $Oauth2PermissionreadGrantRequestBody=@{
+#   ConsentType = "AllPrincipals"
+#   ClientId = $appservicePrincipal.Id
+#   ResourceId =  $apiservicePrincipal.Id
+#   Scope = "read"  
+#   }
   
-New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionreadGrantRequestBody
+# New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionreadGrantRequestBody
 
-$Oauth2PermissionwriteGrantRequestBody=@{
-  ConsentType = "AllPrincipals"
-  ClientId = $appservicePrincipal.Id
-  ResourceId =  $apiservicePrincipal.Id
-  Scope = "write"  
-  }
+# $Oauth2PermissionwriteGrantRequestBody=@{
+#   ConsentType = "AllPrincipals"
+#   ClientId = $appservicePrincipal.Id
+#   ResourceId =  $apiservicePrincipal.Id
+#   Scope = "write"  
+#   }
   
-New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionwriteGrantRequestBody
+# New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionwriteGrantRequestBody
+
+# Define the scopes as an array of strings
+$scopes = @("write", "read")
+
+# Loop through each scope and create the OAuth 2.0 permission grant
+foreach ($scope in $scopes) {
+    New-MgOauth2PermissionGrant -ResourceId  $apiservicePrincipal.Id`
+                                -Scope $scope `
+                                -ClientId $appservicePrincipal.Id`
+                                -ConsentType "AllPrincipals" `
+                                -ExpirationTime (Get-Date).AddYears(5)
+}
+
 
 # Connect-MgGraph -ClientCredential $env:GRAPH_CLIENT_ID -ClientSecret $env:GRAPH_CLIENT_SECRET -TenantId $env:GRAPH_TENANT_ID
 # $newApplication = New-MgApplication $createAppParams
