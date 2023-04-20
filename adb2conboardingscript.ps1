@@ -63,8 +63,8 @@ $apiPermissionScopes = @(
 
 
 $createAppParams = @{
-    DisplayName = "AspNetWebApp"
-    IdentifierUris = "https://$env:GRAPH_TENANT_ID/AspNetWebApI"
+    DisplayName = "AspNetWebApp1"
+    IdentifierUris = "https://$env:TenantURL/AspNetWeb1ApI"
     Api = @{
     Oauth2PermissionScopes = $apiPermissionScopes
     }
