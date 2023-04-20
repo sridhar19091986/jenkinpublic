@@ -27,16 +27,6 @@ Write-Host "Parameter 7: $token"
 
 Connect-MgGraph -AccessToken $token -ErrorAction Stop
 
-$web = @{
-     RedirectUris = @("https://localhost:5001/signin-oidc", "https://localhost:5001/" )
-    ImplicitGrantSettings = @{ `
-                EnableAccessTokenIssuance = $true; `
-                EnableIdTokenIssuance = $true; `
-             } `
-}
-$spa = @{
-     RedirectUris = @("https://localhost:5003/signin-oidc", "https://localhost:5003/" ) 
-}
 # Generate GUIDs for permission scopes
 $readPermissionScopeId = [System.Guid]::NewGuid().ToString()
 $writePermissionScopeId = [System.Guid]::NewGuid().ToString()
@@ -62,14 +52,12 @@ $apiPermissionScopes = @(
 )
 
 
-$createAppParams = @{
-    DisplayName = "AspNetWebApp1"
-    IdentifierUris = "https://$env:TenantURL/AspNetWeb1ApI"
+$createAPIParams = @{
+    DisplayName = "AspNetWebAPI2"
+    IdentifierUris = "https://$env:TenantURL/AspNetWebAPI2"
     Api = @{
     Oauth2PermissionScopes = $apiPermissionScopes
-    }
-    Web = $web
-    spa = $spa
+    } 
     RequiredResourceAccess = @{
         ResourceAppId = "00000003-0000-0000-c000-000000000000"
         ResourceAccess = @(
@@ -84,7 +72,58 @@ $createAppParams = @{
         )
     }
 }
+$newAPI = New-MgApplication @createAPIParams  
+Write-Host "API Clientid: $newAPI.AppId" 
+
+$web = @{
+     RedirectUris = @("https://localhost:5001/signin-oidc", "https://localhost:5001/" )
+    ImplicitGrantSettings = @{ `
+                EnableAccessTokenIssuance = $true; `
+                EnableIdTokenIssuance = $true; `
+             } `
+}
+$spa = @{
+     RedirectUris = @("https://localhost:5003/signin-oidc", "https://localhost:5003/" ) 
+}
+
+$createAppParams = @{
+    DisplayName = "AspNetWebApp1"  
+    Web = $web
+    spa = $spa
+    RequiredResourceAccess = @{
+        ResourceAppId = $newAPI.AppId
+        ResourceAccess = @(
+            @{
+                Id = $readPermissionScopeId
+                Type = "Scope"
+            }
+	     @{
+                Id = $writePermissionScopeId
+                Type = "Scope"
+            }
+        )
+    }
+}
 $newApp = New-MgApplication @createAppParams    
+Write-Host "App Clientid: $newApp.AppId" 
+
+
+$startDate = (Get-Date).Date
+$endDate = $startDate.AddMonths(12)
+$passwordCred = @{
+   displayName = "Valid from $startDate and $endDate"
+   startDateTime = $startDate
+   endDateTime = $endDate
+}
+$secret = Add-MgApplicationPassword -applicationId $newApp.Id  -PasswordCredential $passwordCred
+$secret | Format-List
+
+$ServicePrincipalID=@{
+  "AppId" = $newApp.AppId
+  }
+New-MgServicePrincipal -BodyParameter $ServicePrincipalId
+
+
 # Connect-MgGraph -ClientCredential $env:GRAPH_CLIENT_ID -ClientSecret $env:GRAPH_CLIENT_SECRET -TenantId $env:GRAPH_TENANT_ID
 # $newApplication = New-MgApplication $createAppParams
 # # Add a scope to the application
@@ -95,4 +134,4 @@ $newApp = New-MgApplication @createAppParams
 #                        -IsEnabled $true `
 #                        -Type "Admin" ` 
 # Display the newly created application object
-$newApp | Format-Table
+# $newApp | Format-Table
