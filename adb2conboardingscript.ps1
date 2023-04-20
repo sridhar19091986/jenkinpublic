@@ -15,7 +15,10 @@ Write-Host "Parameter 6: $env:GRAPH_TENANT_ID"
 Import-Module Microsoft.Graph.Applications
 
 $params = @{
-	displayName = $AppName
+	displayName = $AppName,
+        IdentifierUris = "https://myb2capp" ,
+	ReplyUrls = "https://myb2capp/replyurl"  
+
 }
  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $body = @{grant_type = "client_credentials"; scope = "https://graph.microsoft.com/.default"; client_id = $env:GRAPH_CLIENT_ID; client_secret = $env:GRAPH_CLIENT_SECRET }
@@ -24,4 +27,11 @@ $params = @{
 Write-Host "Parameter 7: $token"					
     Connect-MgGraph -AccessToken $token -ErrorAction Stop
 # Connect-MgGraph -ClientCredential $env:GRAPH_CLIENT_ID -ClientSecret $env:GRAPH_CLIENT_SECRET -TenantId $env:GRAPH_TENANT_ID
-New-MgApplication -BodyParameter $params
+$newApplication = New-MgApplication -BodyParameter $params
+# Add a scope to the application
+New-MgApplicationScope -ApplicationId $newApplication.AppId `
+                       -DisplayName "read" `
+                       -AdminConsentDisplayName "read" `
+                       -UserConsentDisplayName "read" `
+                       -IsEnabled $true `
+                       -Type "Admin" ` 
