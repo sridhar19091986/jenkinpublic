@@ -28,13 +28,20 @@ Write-Host "Parameter 7: $token"
 Connect-MgGraph -AccessToken $token -ErrorAction Stop
 
 $web = @{
-    RedirectUris = "https://localhost:5001/signin-oidc"
-    ImplicitGrantSettings = @{ EnableIdTokenIssuance = $true }
+     RedirectUris = @("https://localhost:5001/signin-oidc", "https://localhost:5001/" )
+    ImplicitGrantSettings = @{ `
+                EnableAccessTokenIssuance = $true; `
+                EnableIdTokenIssuance = $true; `
+             } `
+}
+$spa = @{
+     RedirectUris = @("https://localhost:5003/signin-oidc", "https://localhost:5003/" ) 
 }
 
 $createAppParams = @{
     DisplayName = "AspNetWebApp"
     Web = $web
+    spa = $spa
     RequiredResourceAccess = @{
         ResourceAppId = "00000003-0000-0000-c000-000000000000"
         ResourceAccess = @(
