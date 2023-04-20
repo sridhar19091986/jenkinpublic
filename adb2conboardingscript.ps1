@@ -74,6 +74,7 @@ $createAPIParams = @{
 }
 $newAPI = New-MgApplication @createAPIParams  
 Write-Host "API Clientid: $newAPI.AppId" 
+$newAPI | Format-List
 
 $web = @{
      RedirectUris = @("https://localhost:5001/signin-oidc", "https://localhost:5001/" )
@@ -105,8 +106,8 @@ $createAppParams = @{
     }
 }
 $newApp = New-MgApplication @createAppParams    
-Write-Host "App Clientid: $newApp.AppId" 
-
+Write-Host "App Clientid $newApp.AppId" 
+$newApp | Format-List
 
 $startDate = (Get-Date).Date
 $endDate = $startDate.AddMonths(12)
@@ -118,11 +119,33 @@ $passwordCred = @{
 $secret = Add-MgApplicationPassword -applicationId $newApp.Id  -PasswordCredential $passwordCred
 $secret | Format-List
 
-$ServicePrincipalID=@{
+$appServicePrincipalID=@{
   "AppId" = $newApp.AppId
   }
-New-MgServicePrincipal -BodyParameter $ServicePrincipalId
+$appservicePrincipal = New-MgServicePrincipal -BodyParameter $appServicePrincipalID
 
+$apiServicePrincipalID=@{
+  "AppId" = $newAPI.AppId
+  }
+$apiservicePrincipal = New-MgServicePrincipal -BodyParameter $apiServicePrincipalID
+
+$Oauth2PermissionreadGrantRequestBody=@{
+  ConsentType = "AllPrincipals"
+  ClientId = $appservicePrincipal.Id
+  ResourceId =  $apiservicePrincipal.Id
+  Scope = "read"  
+  }
+  
+New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionreadGrantRequestBody
+
+$Oauth2PermissionwriteGrantRequestBody=@{
+  ConsentType = "AllPrincipals"
+  ClientId = $appservicePrincipal.Id
+  ResourceId =  $apiservicePrincipal.Id
+  Scope = "write"  
+  }
+  
+New-MgOauth2PermissionGrant -BodyParameter $Oauth2PermissionwriteGrantRequestBody
 
 # Connect-MgGraph -ClientCredential $env:GRAPH_CLIENT_ID -ClientSecret $env:GRAPH_CLIENT_SECRET -TenantId $env:GRAPH_TENANT_ID
 # $newApplication = New-MgApplication $createAppParams
