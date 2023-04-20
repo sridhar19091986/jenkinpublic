@@ -156,7 +156,6 @@ foreach ($scope in $scopes) {
                                 -Scope $scope `
                                 -ClientId $appservicePrincipal.Id`
                                 -ConsentType "AllPrincipals" `
-                                -ExpiryTime (Get-Date).AddYears(5)
 }
 
 
