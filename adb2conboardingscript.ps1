@@ -42,20 +42,20 @@ $createAppParams = @{
                 Id = "7427e0e9-2fba-42fe-b0c0-848c9e6a8182"
                 Type = "Scope"
             }
-	      @{
+	     @{
                 Id = "37f7f235-527c-4136-accd-4a02d197296e"
                 Type = "Scope"
             }
         )
     }
 }
-    
+$app = New-MgApplication @createAppParams    
 # Connect-MgGraph -ClientCredential $env:GRAPH_CLIENT_ID -ClientSecret $env:GRAPH_CLIENT_SECRET -TenantId $env:GRAPH_TENANT_ID
-$newApplication = New-MgApplication $createAppParams
-# Add a scope to the application
-New-MgApplicationScope -ApplicationId $newApplication.AppId `
-                       -DisplayName "read" `
-                       -AdminConsentDisplayName "read" `
-                       -UserConsentDisplayName "read" `
-                       -IsEnabled $true `
-                       -Type "Admin" ` 
+# $newApplication = New-MgApplication $createAppParams
+# # Add a scope to the application
+# New-MgApplicationScope -ApplicationId $newApplication.AppId `
+#                        -DisplayName "read" `
+#                        -AdminConsentDisplayName "read" `
+#                        -UserConsentDisplayName "read" `
+#                        -IsEnabled $true `
+#                        -Type "Admin" ` 
