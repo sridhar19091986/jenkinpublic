@@ -62,7 +62,9 @@ $apiPermissionScopes = @(
 $createAppParams = @{
     DisplayName = "AspNetWebApp"
     IdentifierUris = "https://$env:GRAPH_TENANT_ID/AspNetWebApI"
-    ApiPermissionScopes = $apiPermissionScopes
+    Api = @{
+    Oauth2PermissionScopes = $apiPermissionScopes
+    }
     Web = $web
     spa = $spa
     RequiredResourceAccess = @{
@@ -79,7 +81,7 @@ $createAppParams = @{
         )
     }
 }
-$app = New-MgApplication @createAppParams    
+$newApp = New-MgApplication @createAppParams    
 # Connect-MgGraph -ClientCredential $env:GRAPH_CLIENT_ID -ClientSecret $env:GRAPH_CLIENT_SECRET -TenantId $env:GRAPH_TENANT_ID
 # $newApplication = New-MgApplication $createAppParams
 # # Add a scope to the application
@@ -89,3 +91,5 @@ $app = New-MgApplication @createAppParams
 #                        -UserConsentDisplayName "read" `
 #                        -IsEnabled $true `
 #                        -Type "Admin" ` 
+# Display the newly created application object
+$newApp | Format-Table
