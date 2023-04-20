@@ -37,24 +37,27 @@ $web = @{
 $spa = @{
      RedirectUris = @("https://localhost:5003/signin-oidc", "https://localhost:5003/" ) 
 }
+# Generate GUIDs for permission scopes
+$readPermissionScopeId = [System.Guid]::NewGuid().ToString()
+$writePermissionScopeId = [System.Guid]::NewGuid().ToString()
 $apiPermissionScopes = @(
     @{
         adminConsentDisplayName = "Read Data"
         adminConsentDescription = "Allows the app to read data from the API"
         userConsentDisplayName = "Read Data"
         userConsentDescription = "Allows the app to read data from the API"
-        id = "1"
+        id = $readPermissionScopeId
         type = "Scope"
-        value = "api://myapiapp/read"
+        value = "read"
     },
     @{
         adminConsentDisplayName = "Write Data"
         adminConsentDescription = "Allows the app to write data to the API"
         userConsentDisplayName = "Write Data"
         userConsentDescription = "Allows the app to write data to the API"
-        id = "2"
+        id = $writePermissionScopeId
         type = "Scope"
-        value = "api://myapiapp/write"
+        value = "write"
     }
 )
 
