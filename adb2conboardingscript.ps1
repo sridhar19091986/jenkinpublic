@@ -15,11 +15,10 @@ Write-Host "Parameter 6: $env:GRAPH_TENANT_ID"
 Import-Module Microsoft.Graph.Applications
 
 $params = @{
-	displayName = $AppName,
-        IdentifierUris = "https://myb2capp" ,
+	displayName = $AppName
+        IdentifierUris = "https://myb2capp" 
 	ReplyUrls = "https://myb2capp/replyurl"  
-
-}
+       }
  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $body = @{grant_type = "client_credentials"; scope = "https://graph.microsoft.com/.default"; client_id = $env:GRAPH_CLIENT_ID; client_secret = $env:GRAPH_CLIENT_SECRET }
     $response = Invoke-RestMethod -Uri https://login.microsoftonline.com/$env:GRAPH_TENANT_ID/oauth2/v2.0/token -Method Post -Body $body
