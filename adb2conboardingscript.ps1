@@ -127,7 +127,7 @@ $appservicePrincipal = New-MgServicePrincipal -BodyParameter $appServicePrincipa
 $apiServicePrincipalID=@{
   "AppId" = $newAPI.AppId
   }
-# $apiservicePrincipal = New-MgServicePrincipal -BodyParameter $apiServicePrincipalID
+$apiservicePrincipal = New-MgServicePrincipal -BodyParameter $apiServicePrincipalID
 
 # $Oauth2PermissionreadGrantRequestBody=@{
 #   ConsentType = "AllPrincipals"
