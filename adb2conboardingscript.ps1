@@ -34,7 +34,7 @@ Write-Host "Parameter 7: $token"
              } `
 }
 $jsonweb = $web | ConvertTo-Json
-Write-Host "$jsonweb: $jsonweb" 
+Write-Host "jsonweb: $jsonweb" 
 Connect-MgGraph -AccessToken $token -ErrorAction Stop
 
 # Generate GUIDs for permission scopes
