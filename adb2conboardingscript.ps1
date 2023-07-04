@@ -24,7 +24,17 @@ Import-Module Microsoft.Graph.Applications
     $response = Invoke-RestMethod -Uri https://login.microsoftonline.com/$env:GRAPH_TENANT_ID/oauth2/v2.0/token -Method Post -Body $body
     $token = $response.access_token
 Write-Host "Parameter 7: $token"	
-
+    $redirectURL = "https://localhost:5001/signin-oidc,https://localhost:5001"
+    $splitArray = $redirectURL.Split(',')
+    $web = @{
+     RedirectUris = @($splitArray )
+    ImplicitGrantSettings = @{ `
+                EnableAccessTokenIssuance = $true; `
+                EnableIdTokenIssuance = $true; `
+             } `
+}
+$jsonweb = $web | ConvertTo-Json
+Write-Host "$jsonweb: $jsonweb" 
 Connect-MgGraph -AccessToken $token -ErrorAction Stop
 
 # Generate GUIDs for permission scopes
